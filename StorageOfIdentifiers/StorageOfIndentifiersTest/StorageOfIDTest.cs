@@ -52,5 +52,17 @@ namespace StorageOfIDTest
             foreach (var item in Pairs)
                 Assert.AreEqual(0, Storage.ObjectByGuid<StorageOfID.Example>(item.Key).X);
         }
+        [TestMethod]
+        public void ObjectByGuid_Should_Return_Null_WhenType_T_IsNotTypeOfObject()
+        {
+            foreach (var item in Pairs)
+                Assert.AreEqual(null, Storage.ObjectByGuid<StorageOfID.SecondExample>(item.Key));
+        }
+        [TestMethod]
+        public void ObjectByGuid_Should_Return_Null_When_ID_IsNotCorrect()
+        {
+            foreach (var item in Pairs)
+                Assert.AreEqual(null, Storage.ObjectByGuid<StorageOfID.Example>(Guid.NewGuid()));
+        }
     }
 }

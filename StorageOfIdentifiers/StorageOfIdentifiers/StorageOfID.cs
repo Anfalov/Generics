@@ -27,7 +27,9 @@ namespace StorageOfID
         public T ObjectByGuid<T>(Guid id)
             where T : class
         {
-            return Storage[id] as T;
+            if(Storage.ContainsKey(id))
+                return Storage[id] as T;
+            return null;
         }
     }
 }

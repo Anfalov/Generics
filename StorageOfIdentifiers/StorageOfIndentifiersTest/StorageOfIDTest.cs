@@ -10,18 +10,18 @@ namespace StorageOfIDTest
     [TestClass]
     public class StorageOfIDTest
     {
-        StorageOfID.StorageOfID Storage;
+        StorageOfID.StorageOfID storage;
         StorageOfID.Example a;
-        IEnumerable<KeyValuePair<Guid, StorageOfID.Example>> Pairs;
+        IEnumerable<KeyValuePair<Guid, StorageOfID.Example>> pairs;
         [TestInitialize()]
         public void Initialize()
         {
-            Storage = new StorageOfID.StorageOfID();
-            Storage.Create<StorageOfID.SecondExample>();
-            Storage.Create<StorageOfID.Example>();
-            Storage.Create<StorageOfID.Example>();
-            a = Storage.Create<StorageOfID.Example>();
-            Pairs = Storage.PairsByType<StorageOfID.Example>();
+            storage = new StorageOfID.StorageOfID();
+            storage.Create<StorageOfID.SecondExample>();
+            storage.Create<StorageOfID.Example>();
+            storage.Create<StorageOfID.Example>();
+            a = storage.Create<StorageOfID.Example>();
+            pairs = storage.PairsByType<StorageOfID.Example>();
         }
         [TestMethod]
         public void Create_Should_Return_ObjectOfType_T()
@@ -32,7 +32,7 @@ namespace StorageOfIDTest
         [TestMethod]
         public void PairsByType_Should_Return_CorrectPairs()
         {
-            foreach (var item in Pairs)
+            foreach (var item in pairs)
             {
                 Assert.AreEqual(0, item.Value.X);
                 Assert.AreEqual(typeof(StorageOfID.Example), item.Value.GetType());
@@ -42,27 +42,27 @@ namespace StorageOfIDTest
         public void PairsByType_Should_Return_RightAmountOfPairs()
         {
             int i = 0;
-            foreach (var item in Pairs)
+            foreach (var item in pairs)
                 i++;
             Assert.AreEqual(3, i);
         }
         [TestMethod]
         public void ObjectByGuid_Should_Return_CorrectAnswer()
         {
-            foreach (var item in Pairs)
-                Assert.AreEqual(0, Storage.ObjectByGuid<StorageOfID.Example>(item.Key).X);
+            foreach (var item in pairs)
+                Assert.AreEqual(0, storage.ObjectByGuid<StorageOfID.Example>(item.Key).X);
         }
         [TestMethod]
         public void ObjectByGuid_Should_Return_Null_WhenType_T_IsNotTypeOfObject()
         {
-            foreach (var item in Pairs)
-                Assert.AreEqual(null, Storage.ObjectByGuid<StorageOfID.SecondExample>(item.Key));
+            foreach (var item in pairs)
+                Assert.AreEqual(null, storage.ObjectByGuid<StorageOfID.SecondExample>(item.Key));
         }
         [TestMethod]
         public void ObjectByGuid_Should_Return_Null_When_ID_IsNotCorrect()
         {
-            foreach (var item in Pairs)
-                Assert.AreEqual(null, Storage.ObjectByGuid<StorageOfID.Example>(Guid.NewGuid()));
+            foreach (var item in pairs)
+                Assert.AreEqual(null, storage.ObjectByGuid<StorageOfID.Example>(Guid.NewGuid()));
         }
     }
 }
